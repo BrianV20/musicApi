@@ -11,6 +11,6 @@ namespace musicApi2.Models.Genre
 
         [MaxLength(50, ErrorMessage = "Name cannot be more than 50 characters")]
         [Required(ErrorMessage = "Name is required")]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
     }
 }

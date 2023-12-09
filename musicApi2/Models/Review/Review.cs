@@ -12,7 +12,7 @@ namespace musicApi2.Models.Review
 
         [Required]
         [MaxLength(300)]
-        public string ReviewText { get; set; }
+        public string ReviewText { get; set; } = null!;
 
         [Required]
         public int ReleaseId { get; set; }
@@ -21,9 +21,9 @@ namespace musicApi2.Models.Review
         public int UserId { get; set; }
 
         [ForeignKey("ReleaseId")]
-        public virtual Release Release { get; set; }
+        public virtual Release Release { get; set; } = null!;
 
         [ForeignKey("UserId")]
-        public virtual User.User User { get; set; }
+        public virtual User.User User { get; set; } = null!;
     }
 }

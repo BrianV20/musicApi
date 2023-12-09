@@ -13,8 +13,8 @@ namespace musicApi.Models.Artist
 
         [MaxLength(100)]
         [Required(ErrorMessage = "El nombre es requerido")]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
-        public virtual ICollection<ArtistsReleases> ArtistsReleases { get; set; }
+        public virtual ICollection<ArtistsReleases> ArtistsReleases { get; set; } = null!;
     }
 }

@@ -17,10 +17,13 @@
          * 12. Hacer click derecho en el proyecto y seleccionar "establecer como proyecto de inicio" ✔
          * 13. Abrir la consola de administrador de paquetes y ejecutar el comando: add-migration initialmigration ✔
          * 14. Ejectutar el comando update-database ✔
+         * 
          * 15. (si se hace un cambio en el codigo tengo que ejecutar add-migration migrationName de nuevo y 
          * update-database updateName) LA PROXIMA HACERLO DATABASE FIRST LPM QUE QUILOMBO ES
-         * 16. Crear los servicios (que usan a los modelos y dtos)
-           17. crear los dtos e implementarlos a los modelos y servicios.
+         * 
+           16. crear los dtos. Los dtos son clases que se usan para enviar y recibir datos. ✔
+         * 17. Crear los servicios y controladores. Los servicios deben ser una clase que implemente una interfaz.
+         *      Los servicios deben contener la logica y los controladores solo deben llamar a los servicios.
            18. instalar automapper y automapper dependency injetion. ✔
            19. hacer los mappings necesarios en los servicios.
            20. crear el archivo AutoMapperProfile y configurar los distintos mappings.

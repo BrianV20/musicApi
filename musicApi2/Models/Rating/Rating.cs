@@ -1,5 +1,4 @@
-﻿using musicApi.Models.Release;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace musicApi2.Models.Rating
@@ -21,7 +20,7 @@ namespace musicApi2.Models.Rating
         public int UserId { get; set; }
 
         [ForeignKey("ReleaseId")]
-        public virtual Release Release { get; set; }
+        public virtual Release.Release Release { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User.User User { get; set; }

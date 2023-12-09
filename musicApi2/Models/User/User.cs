@@ -12,25 +12,26 @@ namespace musicApi2.Models.User
         [Required]
         [StringLength(50)]
         [MinLength(3)]
-        public string Username { get; set; }
+        public string Username { get; set; } = null!;
 
         [Required]
         [StringLength(100)]
         [MinLength(8)]
-        public string Password { get; set; }
+        public string Password { get; set; } = null!;
 
         [Required]
         [StringLength(50)]
         [MinLength(3)]
-        public string Email { get; set; }
+        [EmailAddress]
+        public string Email { get; set; } = null!;
 
         [Required]
         [StringLength(100)]
-        public string Img { get; set; }
+        public string Img { get; set; } = null!;
 
         [Required]
         [StringLength(50)]
         [MinLength(3)]
-        public string Gender { get; set; }
+        public string Gender { get; set; } = null!;
     }
 }

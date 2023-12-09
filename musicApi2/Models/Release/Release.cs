@@ -1,4 +1,5 @@
 ﻿using musicApi2.Models.ArtistsReleases;
+using musicApi2.Models.ReleasesGenres;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,17 +13,17 @@ namespace musicApi.Models.Release
 
         [MaxLength(100)]
         [Required(ErrorMessage = "El título es requerido")]
-        public string Title { get; set; }
+        public string Title { get; set; } = null!;
 
         [MaxLength(100)]
         [Required(ErrorMessage = "La portada es requerida")]
-        public string Cover { get; set; }
+        public string Cover { get; set; } = null!;
 
         [Required(ErrorMessage = "La fecha de lanzamiento es requerida")]
-        public string ReleaseDate { get; set; }
+        public string ReleaseDate { get; set; } = null!;
 
         [ForeignKey("ArtistId")]
-        public virtual Artist.Artist Artist { get; set; }
+        public virtual Artist.Artist Artist { get; set; } = null!;
 
         //[Required]
         public int? ArtistId { get; set; }
@@ -30,6 +31,8 @@ namespace musicApi.Models.Release
         [Required]
         public int Type { get; set; }
 
-        public virtual ICollection<ArtistsReleases> ArtistsReleases { get; set; }
+        public virtual ICollection<ArtistsReleases> ArtistsReleases { get; set; } = null!;
+
+        public virtual ICollection<ReleasesGenres> ReleasesGenres { get; set; } = null!;
     }
 }

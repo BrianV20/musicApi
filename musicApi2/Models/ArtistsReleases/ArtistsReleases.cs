@@ -19,11 +19,11 @@ namespace musicApi2.Models.ArtistsReleases
 
         [ForeignKey("ArtistId")]
         //[InverseProperty("ArtistsReleases")]
-        public virtual Artist Artist { get; set; }
+        public virtual Artist Artist { get; set; } = null!;
 
         [ForeignKey("ReleaseId")]
         //[InverseProperty("ArtistsReleases")]
-        public virtual Release Release { get; set; }
-        public object Artists { get; internal set; }
+        public virtual Release Release { get; set; } = null!;
+        //public object Artists { get; internal set; }
     }
 }
