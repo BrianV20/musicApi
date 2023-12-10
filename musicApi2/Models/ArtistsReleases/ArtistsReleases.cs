@@ -1,6 +1,4 @@
-﻿using musicApi.Models.Artist;
-using musicApi.Models.Release;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace musicApi2.Models.ArtistsReleases
@@ -19,11 +17,11 @@ namespace musicApi2.Models.ArtistsReleases
 
         [ForeignKey("ArtistId")]
         //[InverseProperty("ArtistsReleases")]
-        public virtual Artist Artist { get; set; } = null!;
+        public virtual Artist.Artist Artist { get; set; } = null!;
 
         [ForeignKey("ReleaseId")]
         //[InverseProperty("ArtistsReleases")]
-        public virtual Release Release { get; set; } = null!;
+        public virtual Release.Release Release { get; set; } = null!;
         //public object Artists { get; internal set; }
     }
 }

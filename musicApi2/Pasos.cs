@@ -22,11 +22,22 @@
          * update-database updateName) LA PROXIMA HACERLO DATABASE FIRST LPM QUE QUILOMBO ES
          * 
            16. crear los dtos. Los dtos son clases que se usan para enviar y recibir datos. ✔
+
          * 17. Crear los servicios y controladores. Los servicios deben ser una clase que implemente una interfaz.
          *      Los servicios deben contener la logica y los controladores solo deben llamar a los servicios.
+         *      Dentro de cada servicio voy a implementar los metodos de la interfaz IEntityInterface, y voy a definir
+         *      tambien los metodos mas especificos que necesite, que utilizaran los metodos mismos del servicio.
+         *      Por el momento voy a hacer una interfaz para cada modelo, pero en un futuro veo de hacer una sola interfaz.
+         *      UserController: ✔
+         *      ArtistController: EN PROCESO!!
+         *      ReleaseController:
+         *      GenreController:
+         *      ReviewController:
+         *      RatingController:
+         *      
            18. instalar automapper y automapper dependency injetion. ✔
            19. hacer los mappings necesarios en los servicios.
-           20. crear el archivo AutoMapperProfile y configurar los distintos mappings.
+           20. crear el archivo AutoMapperProfile y configurar los distintos mappings. ✔
            21.  Microsoft.EntityFrameworkCore.Design
          */
     }

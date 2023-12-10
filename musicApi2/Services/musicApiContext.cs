@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using musicApi.Models.Artist;
-using musicApi.Models.Release;
+using musicApi2.Models.Artist;
+using musicApi2.Models.Release;
 using musicApi2.Models.ArtistsReleases;
 using musicApi2.Models.Genre;
 using musicApi2.Models.Rating;
@@ -24,7 +24,8 @@ namespace musicApi2.Services
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ArtistsReleases>().Ignore(b => b.Artists);
+
+            //modelBuilder.Entity<ArtistsReleases>().Ignore(b => b.Artists);
             //    //modelBuilder.Entity<Artist>()
             //    //    .HasMany(a => a.ArtistsReleases)
             //    //    .

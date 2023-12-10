@@ -20,9 +20,9 @@ namespace musicApi2.Models.Rating
         public int UserId { get; set; }
 
         [ForeignKey("ReleaseId")]
-        public virtual Release.Release Release { get; set; }
+        public virtual Release.Release Release { get; set; } = null!;
 
         [ForeignKey("UserId")]
-        public virtual User.User User { get; set; }
+        public virtual User.User User { get; set; } = null!;
     }
 }

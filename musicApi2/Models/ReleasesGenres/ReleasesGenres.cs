@@ -1,5 +1,4 @@
-﻿using musicApi.Models.Release;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace musicApi2.Models.ReleasesGenres
@@ -17,7 +16,7 @@ namespace musicApi2.Models.ReleasesGenres
         public int GenreId { get; set; }
 
         [ForeignKey("ReleaseId")]
-        public virtual Release Release { get; set; } = null!;
+        public virtual Release.Release Release { get; set; } = null!;
 
         [ForeignKey("GenreId")]
         public virtual Genre.Genre Genre { get; set; } = null!;

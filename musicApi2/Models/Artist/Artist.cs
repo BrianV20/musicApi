@@ -3,7 +3,7 @@ using musicApi2.Models.ArtistsReleases;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace musicApi.Models.Artist
+namespace musicApi2.Models.Artist
 {
     public class Artist
     {
@@ -15,6 +15,6 @@ namespace musicApi.Models.Artist
         [Required(ErrorMessage = "El nombre es requerido")]
         public string Name { get; set; } = null!;
 
-        public virtual ICollection<ArtistsReleases> ArtistsReleases { get; set; } = null!;
+        public virtual ICollection<ArtistsReleases.ArtistsReleases> ArtistsReleases { get; set; } = null!;
     }
 }

@@ -3,7 +3,7 @@ using musicApi2.Models.ReleasesGenres;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace musicApi.Models.Release
+namespace musicApi2.Models.Release
 {
     public class Release
     {
@@ -31,8 +31,8 @@ namespace musicApi.Models.Release
         [Required]
         public int Type { get; set; }
 
-        public virtual ICollection<ArtistsReleases> ArtistsReleases { get; set; } = null!;
+        public virtual ICollection<ArtistsReleases.ArtistsReleases> ArtistsReleases { get; set; } = null!;
 
-        public virtual ICollection<ReleasesGenres> ReleasesGenres { get; set; } = null!;
+        public virtual ICollection<ReleasesGenres.ReleasesGenres> ReleasesGenres { get; set; } = null!;
     }
 }
