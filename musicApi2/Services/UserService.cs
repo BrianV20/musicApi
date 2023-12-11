@@ -6,6 +6,20 @@ using System.Linq.Expressions;
 
 namespace musicApi2.Services
 {
+    public interface IUserInterface
+    {
+        Task<UserDto> Add(CreateUserDto e);
+
+        Task<UserDto> Update(int id, UpdateUserDto e);
+
+        Task Delete(int id);
+
+        Task<UserDto> GetOne(Expression<Func<User, bool>>? filter = null);
+
+        Task<IEnumerable<UserDto>> GetAll(Expression<Func<User, bool>>? filter = null);
+
+        Task Save();
+    }
     public class UserService : IUserInterface
     {
         private readonly musicApiContext _context;
@@ -18,13 +32,12 @@ namespace musicApi2.Services
         }
 
 
-        public async Task<IEnumerable<User>> Add(CreateUserDto createUserDto)
+        public async Task<UserDto> Add(CreateUserDto createUserDto)
         {
             var user = _mapper.Map<User>(createUserDto);
             _context.Users.Add(user);
-            //var userToCreate = _mapper.Map<CreateUserDto>(user);
             await Save();
-            return await _context.Users.ToListAsync();
+            return _mapper.Map<UserDto>(user);
         }
 
 
@@ -36,7 +49,7 @@ namespace musicApi2.Services
         }
 
 
-        public async Task<IEnumerable<UsersDto>> GetAll(Expression<Func<User, bool>>? filter = null)
+        public async Task<IEnumerable<UserDto>> GetAll(Expression<Func<User, bool>>? filter = null)
         {
             var users = _context.Users.AsQueryable();
             if (filter != null)
@@ -44,17 +57,17 @@ namespace musicApi2.Services
                 users = users.Where(filter);
             }
             var result = await users.ToListAsync();
-            var usersDto = _mapper.Map<IEnumerable<UsersDto>>(result);
+            var usersDto = _mapper.Map<IEnumerable<UserDto>>(result);
             return usersDto;
         }
 
 
-        public async Task<User> GetOne(Expression<Func<User, bool>>? filter = null)
+        public async Task<UserDto> GetOne(Expression<Func<User, bool>>? filter = null)
         {
             if(filter != null)
             {
-                User user = await _context.Users.FirstOrDefaultAsync(filter);
-                return user;
+                var user = await _context.Users.FirstOrDefaultAsync(filter);
+                return _mapper.Map<UserDto>(user);
             }
             return null;
         }

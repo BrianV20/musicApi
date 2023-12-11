@@ -22,7 +22,7 @@ namespace musicApi2.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<User>> Get(int id) //FUNCIONA
+        public async Task<ActionResult<UserDto>> GetOneById(int id) //FUNCIONA
         {
             try
             {
@@ -56,7 +56,7 @@ namespace musicApi2.Controllers
         [HttpPost(Name = "AddUser")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<UserDto>>> Post([FromBody] CreateUserDto createUserDto) //FUNCIONA
+        public async Task<ActionResult<IEnumerable<UserDto>>> Create([FromBody] CreateUserDto createUserDto) //FUNCIONA
         {
             try
             {
@@ -73,7 +73,7 @@ namespace musicApi2.Controllers
         [HttpPut(Name = "UpdateUser")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<UserDto>> Put(int id, [FromBody] UpdateUserDto updateUserDto) //FUNCIONA
+        public async Task<ActionResult<UserDto>> Update(int id, [FromBody] UpdateUserDto updateUserDto) //FUNCIONA
         {
             try
             {
@@ -101,8 +101,5 @@ namespace musicApi2.Controllers
                 return BadRequest();
             }
         }
-
-
-        // HACER UPDATE, DELETE.
     }
 }
