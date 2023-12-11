@@ -23,6 +23,7 @@ builder.Services.AddAutoMapper(typeof(Mapping));
 //builder.Services.AddScoped<IEntityInterface<User>, UserService>();
 builder.Services.AddScoped<IUserInterface, UserService>();
 builder.Services.AddScoped<IArtistInterface, ArtistService>();
+builder.Services.AddScoped<IGenreService, GenreService>();
 
 
 var app = builder.Build();

@@ -41,7 +41,7 @@ namespace musicApi2.Services
         public async Task<ArtistDto> Add(CreateArtistDto createArtistDto) 
         {
             var artistToAdd = _mapper.Map<Artist>(createArtistDto);
-            _context.Artists.Add(artistToAdd);
+            await _context.Artists.AddAsync(artistToAdd);
             await Save();
             return _mapper.Map<ArtistDto>(artistToAdd);
         }

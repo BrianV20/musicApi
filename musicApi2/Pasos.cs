@@ -31,7 +31,7 @@
          *      UserController: ✔
          *      ArtistController: ✔
          *      ReleaseController: ✔
-         *      GenreController:
+         *      GenreController: ✔
          *      ReviewController:
          *      RatingController:
          *      

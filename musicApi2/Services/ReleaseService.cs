@@ -41,7 +41,7 @@ namespace musicApi2.Services
         public async Task<ReleaseDto> Add(CreateReleaseDto createReleaseDto)
         {
             var releaseToAdd = _mapper.Map<Release>(createReleaseDto);
-            _context.Releases.Add(releaseToAdd);
+            await _context.Releases.AddAsync(releaseToAdd);
             await Save();
             return _mapper.Map<ReleaseDto>(releaseToAdd);
         }
@@ -59,10 +59,10 @@ namespace musicApi2.Services
             if(filter != null)
             {
                 releases = releases.Where(filter);
-                return _mapper.Map<IEnumerable<ReleaseDto>>(releases);
+                //return _mapper.Map<IEnumerable<ReleaseDto>>(releases);
             }
-            var results = await releases.ToListAsync();
-            return _mapper.Map<IEnumerable<ReleaseDto>>(results);
+            //var results = await releases.ToListAsync();
+            return _mapper.Map<IEnumerable<ReleaseDto>>(releases);
         }
 
         public async Task<ReleaseDto> GetOne(Expression<Func<Release, bool>>? filter = null)
