@@ -1,29 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using musicApi2.Models.Release.Dto;
+using musicApi2.Models.Review;
+using musicApi2.Models.Review.Dto;
 using musicApi2.Services;
 
 namespace musicApi2.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ReleaseController : ControllerBase
+    public class ReviewController : ControllerBase
     {
-        private readonly IReleaseService _releaseService;
+        private readonly IReviewService _reviewService;
 
-        public ReleaseController(IReleaseService releaseService)
+        public ReviewController(IReviewService reviewService)
         {
-            _releaseService = releaseService;
+            _reviewService = reviewService;
         }
 
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ReleaseDto>> GetOneById(int id)
+        public async Task<ActionResult<ReviewDto>> GetOneById(int id)
         {
             try
             {
-                var release = await _releaseService.GetOne(a => a.Id == id);
-                return Ok(release);
+                var review = await _reviewService.GetOne(a => a.Id == id);
+                return Ok(review);
             }
             catch
             {
@@ -35,12 +36,12 @@ namespace musicApi2.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ReleaseDto>> Create([FromBody] CreateReleaseDto createReleaseDto)
+        public async Task<ActionResult<ReviewDto>> Create([FromBody] CreateReviewDto createReviewDto)
         {
             try
             {
-                await _releaseService.Add(createReleaseDto);
-                return Created("Create", createReleaseDto);
+                await _reviewService.Add(createReviewDto);
+                return Created("Create", createReviewDto);
             }
             catch
             {
@@ -49,15 +50,15 @@ namespace musicApi2.Controllers
         }
 
 
-        [HttpGet(Name = "GetAllReleases")]
+        [HttpGet(Name = "GetAllReviews")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<ReleaseDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ReviewDto>>> GetAll()
         {
             try
             {
-                var releases = await _releaseService.GetAll();
-                return Ok(releases);
+                var reviews = await _reviewService.GetAll();
+                return Ok(reviews);
             }
             catch
             {
@@ -69,12 +70,12 @@ namespace musicApi2.Controllers
         [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ReleaseDto>> Update(int id, [FromBody] UpdateReleaseDto updateReleaseDto)
+        public async Task<ActionResult<ReviewDto>> Update(int id, [FromBody] UpdateReviewDto updateReviewDto)
         {
             try
             {
-                var release = await _releaseService.Update(id, updateReleaseDto);
-                return Ok(release);
+                var review = await _reviewService.Update(id, updateReviewDto);
+                return Ok(review);
             }
             catch
             {
@@ -90,7 +91,7 @@ namespace musicApi2.Controllers
         {
             try
             {
-                await _releaseService.Delete(id);
+                await _reviewService.Delete(id);
                 return Ok();
             }
             catch

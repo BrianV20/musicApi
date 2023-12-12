@@ -1,29 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using musicApi2.Models.Release.Dto;
+using musicApi2.Models.Rating;
+using musicApi2.Models.Rating.Dto;
 using musicApi2.Services;
 
 namespace musicApi2.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ReleaseController : ControllerBase
+    public class RatingController : ControllerBase
     {
-        private readonly IReleaseService _releaseService;
+        private readonly IRatingInterface _ratingService;
 
-        public ReleaseController(IReleaseService releaseService)
+        public RatingController(IRatingInterface ratingService)
         {
-            _releaseService = releaseService;
+            _ratingService = ratingService;
         }
+
 
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ReleaseDto>> GetOneById(int id)
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<RatingDto>> GetOneById(int id)
         {
             try
             {
-                var release = await _releaseService.GetOne(a => a.Id == id);
-                return Ok(release);
+                var rating = await _ratingService.GetOne(a => a.Id == id);
+                return Ok(rating);
             }
             catch
             {
@@ -35,12 +38,12 @@ namespace musicApi2.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ReleaseDto>> Create([FromBody] CreateReleaseDto createReleaseDto)
+        public async Task<ActionResult<RatingDto>> Create([FromBody] CreateRatingDto createRatingDto)
         {
             try
             {
-                await _releaseService.Add(createReleaseDto);
-                return Created("Create", createReleaseDto);
+                await _ratingService.Add(createRatingDto);
+                return Created("Create", createRatingDto);
             }
             catch
             {
@@ -49,15 +52,15 @@ namespace musicApi2.Controllers
         }
 
 
-        [HttpGet(Name = "GetAllReleases")]
+        [HttpGet(Name = "GetAllRatings")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<ReleaseDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<RatingDto>>> GetAll()
         {
             try
             {
-                var releases = await _releaseService.GetAll();
-                return Ok(releases);
+                var ratings = await _ratingService.GetAll();
+                return Ok(ratings);
             }
             catch
             {
@@ -69,12 +72,12 @@ namespace musicApi2.Controllers
         [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ReleaseDto>> Update(int id, [FromBody] UpdateReleaseDto updateReleaseDto)
+        public async Task<ActionResult<RatingDto>> Update(int id, [FromBody] UpdateRatingDto updateRatingDto)
         {
             try
             {
-                var release = await _releaseService.Update(id, updateReleaseDto);
-                return Ok(release);
+                var rating = await _ratingService.Update(id, updateRatingDto);
+                return Ok(rating);
             }
             catch
             {
@@ -90,7 +93,7 @@ namespace musicApi2.Controllers
         {
             try
             {
-                await _releaseService.Delete(id);
+                await _ratingService.Delete(id);
                 return Ok();
             }
             catch

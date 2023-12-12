@@ -20,10 +20,12 @@ builder.Services.AddDbContext<musicApiContext>(options =>
 // automapper
 builder.Services.AddAutoMapper(typeof(Mapping));
 
-//builder.Services.AddScoped<IEntityInterface<User>, UserService>();
 builder.Services.AddScoped<IUserInterface, UserService>();
 builder.Services.AddScoped<IArtistInterface, ArtistService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<IReleaseService, ReleaseService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IRatingInterface, RatingService>();
 
 
 var app = builder.Build();

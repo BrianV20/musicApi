@@ -1,6 +1,4 @@
-﻿using musicApi2.Models.Artist.Dto;
-using musicApi2.Models.Artist;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using musicApi2.Models.Release.Dto;
 using musicApi2.Models.Release;
 using AutoMapper;
@@ -41,7 +39,7 @@ namespace musicApi2.Services
         public async Task<ReleaseDto> Add(CreateReleaseDto createReleaseDto)
         {
             var releaseToAdd = _mapper.Map<Release>(createReleaseDto);
-            await _context.Releases.AddAsync(releaseToAdd);
+            _context.Releases.Add(releaseToAdd);
             await Save();
             return _mapper.Map<ReleaseDto>(releaseToAdd);
         }

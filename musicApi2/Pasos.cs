@@ -32,13 +32,18 @@
          *      ArtistController: ✔
          *      ReleaseController: ✔
          *      GenreController: ✔
-         *      ReviewController:
-         *      RatingController:
+         *      ReviewController: ✔
+         *      RatingController: ✔
          *      
            18. instalar automapper y automapper dependency injetion. ✔
            19. hacer los mappings necesarios en los servicios. ✔
            20. crear el archivo AutoMapperProfile y configurar los distintos mappings. ✔
            21.  Microsoft.EntityFrameworkCore.Design
+
+
+        COSAS POR ARREGLAR: ver bien las cosas que se requieren en cada controller y service, ver porque a la hora de
+            hacer el put en el rating se crea uno nuevo, cubrir mejor ciertos casos (por ejemplo que se haga un get
+            de un usuario que no existe)
          */
     }
 }
