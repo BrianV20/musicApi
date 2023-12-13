@@ -24,23 +24,6 @@ namespace musicApi2.Services
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-            //modelBuilder.Entity<ArtistsReleases>().Ignore(b => b.Artists);
-            //    //modelBuilder.Entity<Artist>()
-            //    //    .HasMany(a => a.ArtistsReleases)
-            //    //    .
-            //    //modelBuilder.Entity<Artist>()
-            //    //    .HasMany(a => a.ArtistsReleases)
-            //    //    .WithOne(ar => ar.Artist)
-            //    //    .HasForeignKey(ar => ar.ArtistId);
-
-            //    //modelBuilder.Entity<Release>()
-            //    //    .HasMany(r => r.ArtistsReleases)
-            //    //    .WithOne(ar => ar.Release)
-            //    //    .HasForeignKey(ar => ar.ReleaseId);
-
-            //    //modelBuilder.Entity<ArtistsReleases>()
-
         }
     }
 }

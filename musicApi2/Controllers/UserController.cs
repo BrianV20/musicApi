@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using musicApi2.Models.User;
 using musicApi2.Models.User.Dto;
 using musicApi2.Services;
 
@@ -38,7 +37,7 @@ namespace musicApi2.Controllers
         [HttpGet(Name = "GetAllUsers")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<UsersDto>>> GetAll() //FUNCIONA
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetAll() //FUNCIONA
         {
             try
             {

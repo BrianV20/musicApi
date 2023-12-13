@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using musicApi2.Models.Artist;
 using musicApi2.Models.Artist.Dto;
 using musicApi2.Services;
 

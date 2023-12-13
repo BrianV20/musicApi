@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using musicApi2.Models.Artist;
 using musicApi2.Models.Artist.Dto;
-using musicApi2.Models.User;
 using System.Linq.Expressions;
 
 namespace musicApi2.Services

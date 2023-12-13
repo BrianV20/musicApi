@@ -4,6 +4,7 @@ namespace musicApi2.Models.User.Dto
 {
     public class CreateUserDto
     {
+        public int Id { get; set; }
         public string Username { get; set; } = null!;
 
         public string Password { get; set; } = null!;

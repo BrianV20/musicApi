@@ -22,13 +22,13 @@ namespace musicApi2.Config
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<User, CreateUserDto>().ReverseMap();
             CreateMap<User, UpdateUserDto>().ReverseMap();
-            CreateMap<User, UsersDto>().ReverseMap();
+            //CreateMap<User, UsersDto>().ReverseMap();
 
             // Review
             CreateMap<Review, ReviewDto>().ReverseMap();
             CreateMap<Review, CreateReviewDto>().ReverseMap();
             CreateMap<Review, UpdateReviewDto>().ReverseMap();
-            CreateMap<Review, ReviewsDto>().ReverseMap();
+            //CreateMap<Review, ReviewsDto>().ReverseMap();
 
             // Release
             CreateMap<Release, ReleaseDto>().ReverseMap();

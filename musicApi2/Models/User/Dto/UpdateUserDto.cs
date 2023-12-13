@@ -4,6 +4,8 @@ namespace musicApi2.Models.User.Dto
 {
     public class UpdateUserDto
     {
+        public int Id { get; set; }
+
         [StringLength(50)]
         [MinLength(3)]
         public string? Username { get; set; }

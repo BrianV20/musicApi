@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using musicApi2.Models.Rating;
 using musicApi2.Models.Rating.Dto;
 using musicApi2.Services;
 
