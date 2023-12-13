@@ -2,7 +2,6 @@
 {
     public class CreateReviewDto
     {
-        public int Id { get; set; }
         public string ReviewText { get; set; } = null!;
 
         public int ReleaseId { get; set; }

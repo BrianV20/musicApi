@@ -19,12 +19,16 @@ namespace musicApi2.Controllers
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ArtistDto>> GetOneById(int id)
         {
             try
             {
                 var artist = await _artistService.GetOne(a => a.Id == id);
+                if(artist == null)
+                {
+                    return NotFound("No existe un artista con tal id.");
+                }
                 return Ok(artist);
             }
             catch
@@ -39,14 +43,20 @@ namespace musicApi2.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ArtistDto>> Create([FromBody] CreateArtistDto createArtistDto)
         {
+            /*var result = await _artistService.Add(createArtistDto);
+            if(result == null)
+            {
+                return Created("Create", createArtistDto);
+            }
+            return result;*/
             try
             {
                 await _artistService.Add(createArtistDto);
                 return Created("Create", createArtistDto);
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -76,6 +86,10 @@ namespace musicApi2.Controllers
             try
             {
                 var artist = await _artistService.Update(id, updateArtistDto);
+                if(artist == null)
+                {
+                    return NotFound("No se encontró un artista con tal id");
+                }
                 return Ok(artist);
             }
             catch
@@ -95,9 +109,9 @@ namespace musicApi2.Controllers
                 await _artistService.Delete(id);
                 return Ok();
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }

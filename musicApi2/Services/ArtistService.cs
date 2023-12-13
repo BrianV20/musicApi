@@ -87,10 +87,14 @@ namespace musicApi2.Services
         public async Task<ArtistDto> Update(int id, UpdateArtistDto updateArtistDto) 
         {
             var artistToUpdate = await _context.Artists.FirstOrDefaultAsync(a => a.Id == id);
+            if(artistToUpdate != null)
+            {
             var artist = _mapper.Map(updateArtistDto, artistToUpdate);
             _context.Artists.Update(artist);
             await Save();
             return _mapper.Map<ArtistDto>(artist);
+            }
+            return null;
         }
     }
 }

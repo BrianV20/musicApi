@@ -2,7 +2,6 @@
 {
     public class CreateRatingDto
     {
-        public int Id { get; set; }
         public int RatingValue { get; set; }
 
         public int ReleaseId { get; set; }
