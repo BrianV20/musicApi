@@ -44,6 +44,14 @@
         COSAS POR ARREGLAR: ver bien las cosas que se requieren en cada controller y service, ver porque a la hora de
             hacer el put en el rating se crea uno nuevo, cubrir mejor ciertos casos (por ejemplo que se haga un get
             de un usuario que no existe)
+
+
+
+        ----------------------
+        LISTO: Probar api.
+        ----------------------
+
          */
+
     }
 }

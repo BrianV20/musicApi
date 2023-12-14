@@ -79,10 +79,14 @@ namespace musicApi2.Services
         public async Task<GenreDto> Update(int id, UpdateGenreDto updateGenreDto)
         {
             var genreToUpdate = await _context.Genres.FirstOrDefaultAsync(g => g.Id == id);
-            var genre = _mapper.Map(updateGenreDto, genreToUpdate);
-            _context.Genres.Update(genreToUpdate);
-            await Save();
-            return _mapper.Map<GenreDto>(genre);
+            if(genreToUpdate != null)
+            {
+                var genre = _mapper.Map(updateGenreDto, genreToUpdate);
+                _context.Genres.Update(genreToUpdate);
+                await Save();
+                return _mapper.Map<GenreDto>(genre);
+            }
+            return null;
         }
     }
 }

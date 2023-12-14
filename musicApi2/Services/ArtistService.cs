@@ -71,10 +71,8 @@ namespace musicApi2.Services
             if(filter != null)
             {
                 artists = artists.Where(filter);
-                return _mapper.Map<IEnumerable<ArtistDto>>(artists);
             }
-            var result = await artists.ToListAsync();
-            return _mapper.Map<IEnumerable<ArtistDto>>(result);
+            return _mapper.Map<IEnumerable<ArtistDto>>(artists);
         }
 
 
@@ -89,10 +87,10 @@ namespace musicApi2.Services
             var artistToUpdate = await _context.Artists.FirstOrDefaultAsync(a => a.Id == id);
             if(artistToUpdate != null)
             {
-            var artist = _mapper.Map(updateArtistDto, artistToUpdate);
-            _context.Artists.Update(artist);
-            await Save();
-            return _mapper.Map<ArtistDto>(artist);
+                var artist = _mapper.Map(updateArtistDto, artistToUpdate);
+                _context.Artists.Update(artist);
+                await Save();
+                return _mapper.Map<ArtistDto>(artist);
             }
             return null;
         }

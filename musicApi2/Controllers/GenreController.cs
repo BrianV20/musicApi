@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using musicApi2.Models.Artist;
 using musicApi2.Models.Genre.Dto;
 using musicApi2.Services;
 
@@ -18,12 +19,17 @@ namespace musicApi2.Controllers
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GenreDto>> GetOneById(int id)
         {
             try
             {
-                var release = await _genreService.GetOne(a => a.Id == id);
-                return Ok(release);
+                var genre = await _genreService.GetOne(a => a.Id == id);
+                if(genre == null)
+                {
+                    return NotFound("No existe un genero con tal id.");
+                }
+                return Ok(genre);
             }
             catch
             {
@@ -42,9 +48,9 @@ namespace musicApi2.Controllers
                 await _genreService.Add(createGenreDto);
                 return Created("Create", createGenreDto);
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -56,8 +62,8 @@ namespace musicApi2.Controllers
         {
             try
             {
-                var releases = await _genreService.GetAll();
-                return Ok(releases);
+                var genres = await _genreService.GetAll();
+                return Ok(genres);
             }
             catch
             {
@@ -73,8 +79,12 @@ namespace musicApi2.Controllers
         {
             try
             {
-                var release = await _genreService.Update(id, updateGenreDto);
-                return Ok(release);
+                var genre = await _genreService.Update(id, updateGenreDto);
+                if (genre == null)
+                {
+                    return NotFound("No se encontró un genre con tal id");
+                }
+                return Ok(genre);
             }
             catch
             {
@@ -93,9 +103,9 @@ namespace musicApi2.Controllers
                 await _genreService.Delete(id);
                 return Ok();
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }

@@ -83,12 +83,16 @@ namespace musicApi2.Services
         {
             try
             {
-                User userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == id); //aca traigo al usuario que
+                var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == id); //aca traigo al usuario que
                                                                                            //quiero actualizar
-                var userUpdated = _mapper.Map(updateUserDto, userToUpdate); //aca actualizo el usuario
-                _context.Users.Update(userUpdated); //aca lo guardo en la base de datos
-                await Save(); //aca guardo los cambios
-                return _mapper.Map<UserDto>(userUpdated); //aca devuelvo el usuario actualizado en formato UserDto
+                if (userToUpdate == null)
+                {
+                    var user = _mapper.Map(updateUserDto, userToUpdate); //aca actualizo el usuario
+                    _context.Users.Update(user); //aca lo guardo en la base de datos
+                    await Save(); //aca guardo los cambios
+                    return _mapper.Map<UserDto>(user); //aca devuelvo el usuario actualizado en formato UserDto
+                }
+                return null;
             }
             catch
             {

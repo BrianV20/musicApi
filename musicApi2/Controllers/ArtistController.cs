@@ -43,12 +43,6 @@ namespace musicApi2.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ArtistDto>> Create([FromBody] CreateArtistDto createArtistDto)
         {
-            /*var result = await _artistService.Add(createArtistDto);
-            if(result == null)
-            {
-                return Created("Create", createArtistDto);
-            }
-            return result;*/
             try
             {
                 await _artistService.Add(createArtistDto);

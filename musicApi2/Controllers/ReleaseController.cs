@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using musicApi2.Models.Artist;
 using musicApi2.Models.Release.Dto;
 using musicApi2.Services;
 
@@ -23,6 +24,10 @@ namespace musicApi2.Controllers
             try
             {
                 var release = await _releaseService.GetOne(a => a.Id == id);
+                if (release == null)
+                {
+                    return NotFound("No existe un release con tal id.");
+                }
                 return Ok(release);
             }
             catch
@@ -42,9 +47,9 @@ namespace musicApi2.Controllers
                 await _releaseService.Add(createReleaseDto);
                 return Created("Create", createReleaseDto);
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -74,6 +79,10 @@ namespace musicApi2.Controllers
             try
             {
                 var release = await _releaseService.Update(id, updateReleaseDto);
+                if (release == null)
+                {
+                    return NotFound("No se encontró un release con tal id");
+                }
                 return Ok(release);
             }
             catch
@@ -93,9 +102,9 @@ namespace musicApi2.Controllers
                 await _releaseService.Delete(id);
                 return Ok();
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using musicApi2.Models.Artist;
 using musicApi2.Models.Rating.Dto;
 using musicApi2.Services;
 
@@ -19,12 +20,16 @@ namespace musicApi2.Controllers
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<RatingDto>> GetOneById(int id)
         {
             try
             {
                 var rating = await _ratingService.GetOne(a => a.Id == id);
+                if (rating == null)
+                {
+                    return NotFound("No se encontró un rating con tal id.");
+                }
                 return Ok(rating);
             }
             catch
@@ -44,9 +49,9 @@ namespace musicApi2.Controllers
                 await _ratingService.Add(createRatingDto);
                 return Created("Create", createRatingDto);
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -76,6 +81,10 @@ namespace musicApi2.Controllers
             try
             {
                 var rating = await _ratingService.Update(id, updateRatingDto);
+                if (rating == null)
+                {
+                    return NotFound("No se encontró un rating con tal id");
+                }
                 return Ok(rating);
             }
             catch
@@ -95,9 +104,9 @@ namespace musicApi2.Controllers
                 await _ratingService.Delete(id);
                 return Ok();
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }

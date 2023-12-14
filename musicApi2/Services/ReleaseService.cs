@@ -39,7 +39,7 @@ namespace musicApi2.Services
         public async Task<ReleaseDto> Add(CreateReleaseDto createReleaseDto)
         {
             var releaseToAdd = _mapper.Map<Release>(createReleaseDto);
-            _context.Releases.Add(releaseToAdd);
+            await _context.Releases.AddAsync(releaseToAdd);
             await Save();
             return _mapper.Map<ReleaseDto>(releaseToAdd);
         }
@@ -57,9 +57,7 @@ namespace musicApi2.Services
             if(filter != null)
             {
                 releases = releases.Where(filter);
-                //return _mapper.Map<IEnumerable<ReleaseDto>>(releases);
             }
-            //var results = await releases.ToListAsync();
             return _mapper.Map<IEnumerable<ReleaseDto>>(releases);
         }
 
@@ -81,10 +79,14 @@ namespace musicApi2.Services
         public async Task<ReleaseDto> Update(int id, UpdateReleaseDto updateReleaseDto)
         {
             var releaseToUpdate = await _context.Releases.FirstOrDefaultAsync(r => r.Id == id);
-            var release = _mapper.Map(updateReleaseDto, releaseToUpdate);
-            _context.Releases.Update(release);
-            await Save();
-            return _mapper.Map<ReleaseDto>(release);
+            if(releaseToUpdate == null)
+            {
+                var release = _mapper.Map(updateReleaseDto, releaseToUpdate);
+                _context.Releases.Update(release);
+                await Save();
+                return _mapper.Map<ReleaseDto>(release);
+            }
+            return null;
         }
     }
 }

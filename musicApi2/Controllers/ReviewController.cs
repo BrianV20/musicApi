@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using musicApi2.Models.Artist;
 using musicApi2.Models.Review.Dto;
 using musicApi2.Services;
 
@@ -23,6 +24,10 @@ namespace musicApi2.Controllers
             try
             {
                 var review = await _reviewService.GetOne(a => a.Id == id);
+                if (review == null)
+                {
+                    return NotFound("No existe un review con tal id.");
+                }
                 return Ok(review);
             }
             catch
@@ -42,9 +47,9 @@ namespace musicApi2.Controllers
                 await _reviewService.Add(createReviewDto);
                 return Created("Create", createReviewDto);
             }
-            catch
+            catch (Exception ex) 
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -74,6 +79,10 @@ namespace musicApi2.Controllers
             try
             {
                 var review = await _reviewService.Update(id, updateReviewDto);
+                if (review == null)
+                {
+                    return NotFound("No se encontró un review con tal id");
+                }
                 return Ok(review);
             }
             catch

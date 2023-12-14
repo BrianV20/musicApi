@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using musicApi2.Models.Artist;
 using musicApi2.Models.User.Dto;
 using musicApi2.Services;
 
@@ -25,7 +26,12 @@ namespace musicApi2.Controllers
         {
             try
             {
-                return await _userService.GetOne(u => u.Id == id); 
+                var user = await _userService.GetOne(u => u.Id == id);
+                if (user == null)
+                {
+                    return NotFound("No existe un user con tal id.");
+                }
+                return Ok(user);
             }
             catch
             {
@@ -42,7 +48,6 @@ namespace musicApi2.Controllers
             try
             {
                 var users = await _userService.GetAll();
-                //var usersDto = 
                 return Ok(users);
             }
             catch
@@ -62,9 +67,9 @@ namespace musicApi2.Controllers
                 var user = await _userService.Add(createUserDto);
                 return Created("AddUser", user);
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -77,7 +82,11 @@ namespace musicApi2.Controllers
             try
             {
                 var user = await _userService.Update(id, updateUserDto);
-                return user;
+                if (user == null)
+                {
+                    return NotFound("No se encontró un user con tal id");
+                }
+                return Ok(user);
             }
             catch
             {

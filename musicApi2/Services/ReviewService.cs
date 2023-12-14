@@ -86,10 +86,14 @@ namespace musicApi2.Services
         public async Task<ReviewDto> Update(int id, UpdateReviewDto updateReviewDto)
         {
             var reviewToUpdate = await _context.Reviews.FirstOrDefaultAsync(r => r.Id == id);
-            var review = _mapper.Map(updateReviewDto, reviewToUpdate);
-            _context.Reviews.Update(review);
-            await Save();
-            return _mapper.Map<ReviewDto>(review);
+            if(reviewToUpdate == null)
+            {
+                var review = _mapper.Map(updateReviewDto, reviewToUpdate);
+                _context.Reviews.Update(review);
+                await Save();
+                return _mapper.Map<ReviewDto>(review);
+            }
+            return null;
         }
     }
 }
