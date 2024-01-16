@@ -85,7 +85,7 @@ namespace musicApi2.Services
             {
                 var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == id); //aca traigo al usuario que
                                                                                            //quiero actualizar
-                if (userToUpdate == null)
+                if (userToUpdate != null)
                 {
                     var user = _mapper.Map(updateUserDto, userToUpdate); //aca actualizo el usuario
                     _context.Users.Update(user); //aca lo guardo en la base de datos

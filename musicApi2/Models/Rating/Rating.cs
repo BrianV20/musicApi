@@ -11,7 +11,7 @@ namespace musicApi2.Models.Rating
 
         [Required]
         [Range(minimum: 0, maximum: 5)]
-        public int RatingValue { get; set; }
+        public double RatingValue { get; set; }
 
         [Required]
         public int ReleaseId { get; set; }

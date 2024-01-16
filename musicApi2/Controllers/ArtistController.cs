@@ -55,7 +55,7 @@ namespace musicApi2.Controllers
         }
 
 
-        [HttpGet(Name = "GetAllArtists")]
+        [HttpGet("GetAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<ArtistDto>>> GetAll()

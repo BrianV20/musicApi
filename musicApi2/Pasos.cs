@@ -48,7 +48,7 @@
 
 
         ----------------------
-        LISTO: Probar api.
+        LISTO: Hacer la pagina nomas
         ----------------------
 
          */

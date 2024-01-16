@@ -79,7 +79,7 @@ namespace musicApi2.Services
         public async Task<ReleaseDto> Update(int id, UpdateReleaseDto updateReleaseDto)
         {
             var releaseToUpdate = await _context.Releases.FirstOrDefaultAsync(r => r.Id == id);
-            if(releaseToUpdate == null)
+            if(releaseToUpdate != null)
             {
                 var release = _mapper.Map(updateReleaseDto, releaseToUpdate);
                 _context.Releases.Update(release);

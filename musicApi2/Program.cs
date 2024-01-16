@@ -20,12 +20,25 @@ builder.Services.AddDbContext<musicApiContext>(options =>
 // automapper
 builder.Services.AddAutoMapper(typeof(Mapping));
 
+//Scopes (es necesario para que funcionen los servicios)
 builder.Services.AddScoped<IUserInterface, UserService>();
 builder.Services.AddScoped<IArtistInterface, ArtistService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IReleaseService, ReleaseService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IRatingInterface, RatingService>();
+
+
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 
 var app = builder.Build();
@@ -40,6 +53,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors("AllowAll");
 
 app.MapControllers();
 

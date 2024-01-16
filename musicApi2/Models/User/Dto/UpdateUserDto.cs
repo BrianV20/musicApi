@@ -18,11 +18,10 @@ namespace musicApi2.Models.User.Dto
         [EmailAddress]
         public string? Email { get; set; }
 
-        [StringLength(100)]
         public string? Img { get; set; }
 
         [StringLength(50)]
-        [MinLength(3)]
+        //[MinLength(3)]
         public string? Gender { get; set; }
     }
 }

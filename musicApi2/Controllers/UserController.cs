@@ -75,6 +75,7 @@ namespace musicApi2.Controllers
 
 
         [HttpPut(Name = "UpdateUser")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<UserDto>> Update(int id, [FromBody] UpdateUserDto updateUserDto) //FUNCIONA

@@ -2,7 +2,7 @@
 {
     public class UpdateRatingDto
     {
-        public int RatingValue { get; set; }
+        public double RatingValue { get; set; }
 
         public int ReleaseId { get; set; }
 
