@@ -1,8 +1,14 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using musicApi2.Models.User;
 using musicApi2.Models.User.Dto;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq.Expressions;
+using System.Security.Claims;
+using System.Text;
 
 namespace musicApi2.Services
 {
@@ -19,16 +25,20 @@ namespace musicApi2.Services
         Task<IEnumerable<UserDto>> GetAll(Expression<Func<User, bool>>? filter = null);
 
         Task Save();
+
+        Task<string> Login(LoginUserDto loginUserDto);
     }
     public class UserService : IUserInterface
     {
         private readonly musicApiContext _context;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public UserService(musicApiContext context, IMapper mapper)
+        public UserService(musicApiContext context, IMapper mapper, IConfiguration configuration)
         {
             _context = context;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
 
@@ -98,6 +108,54 @@ namespace musicApi2.Services
             {
                 return null;
             }
+        }
+
+        public async Task<string> Login(LoginUserDto loginUserDto)
+        {
+            var user = await ValidateUser(loginUserDto);
+            if (user != null)
+            {
+                return GenerateToken(user);
+            }
+
+            throw new Exception("Invalid credentials");
+        }
+
+        private async Task<User> ValidateUser(LoginUserDto loginUserDto)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginUserDto.Email);
+            if (user != null)
+            {
+                return user;
+            }
+
+            return null;
+        }
+
+        private string GenerateToken(User user)
+        {
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Email),
+            };
+
+            var identity = new ClaimsIdentity(claims, "Basic");
+            var principal = new ClaimsPrincipal(identity);
+            var ticket = new AuthenticationTicket(principal, "Basic");
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtConfig:Secret"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = identity,
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = creds
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
         }
     }
 }

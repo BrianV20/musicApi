@@ -110,5 +110,26 @@ namespace musicApi2.Controllers
                 return BadRequest();
             }
         }
+
+
+        [HttpPost("login", Name = "Login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<string>> Login([FromBody] LoginUserDto loginUserDto)
+        {
+            try
+            {
+                var token = await _userService.Login(loginUserDto);
+                if (string.IsNullOrEmpty(token))
+                {
+                    return NotFound("No se encontró un user con tal email y password");
+                }
+                return Ok(new { Token = token });
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
