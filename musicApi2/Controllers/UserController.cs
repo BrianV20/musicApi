@@ -126,9 +126,9 @@ namespace musicApi2.Controllers
                 }
                 return Ok(new { Token = token });
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }
