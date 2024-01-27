@@ -6,6 +6,7 @@ using musicApi2.Models.Genre;
 using musicApi2.Models.Rating;
 using musicApi2.Models.Review;
 using musicApi2.Models.User;
+using musicApi2.Models.WishList;
 
 namespace musicApi2.Services
 {
@@ -21,6 +22,7 @@ namespace musicApi2.Services
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<WishList> WishLists { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

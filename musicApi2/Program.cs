@@ -59,6 +59,7 @@ builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IReleaseService, ReleaseService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IRatingInterface, RatingService>();
+builder.Services.AddScoped<IWishListInterface, WishListService>();
 
 
 // CORS

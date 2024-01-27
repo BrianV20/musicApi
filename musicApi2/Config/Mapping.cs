@@ -11,6 +11,8 @@ using musicApi2.Models.Review;
 using musicApi2.Models.Review.Dto;
 using musicApi2.Models.User;
 using musicApi2.Models.User.Dto;
+using musicApi2.Models.WishList;
+using musicApi2.Models.WishList.Dto;
 
 namespace musicApi2.Config
 {
@@ -49,6 +51,10 @@ namespace musicApi2.Config
             CreateMap<Artist, ArtistDto>().ReverseMap();
             CreateMap<Artist, CreateArtistDto>().ReverseMap();
             CreateMap<Artist, UpdateArtistDto>().ReverseMap();
+
+            // WishList
+            CreateMap<WishList, WishListDto>().ReverseMap();
+            CreateMap<WishList, CreateWishListDto>().ReverseMap();
         }
     }
 }
