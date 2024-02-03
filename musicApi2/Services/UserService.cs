@@ -27,6 +27,10 @@ namespace musicApi2.Services
         Task Save();
 
         Task<string> Login(LoginUserDto loginUserDto);
+
+        Task<string> verifyToken(string token);
+
+        Task<UserDto> getUserFromToken(string token);
     }
     public class UserService : IUserInterface
     {
@@ -123,7 +127,7 @@ namespace musicApi2.Services
 
         private async Task<User> ValidateUser(LoginUserDto loginUserDto)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginUserDto.Email);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginUserDto.Email && u.Password == loginUserDto.Password);
             if (user != null)
             {
                 return user;
@@ -134,28 +138,117 @@ namespace musicApi2.Services
 
         private string GenerateToken(User user)
         {
-            var claims = new[]
+            // JWT authorization key generation
+            //var claims = new[]
+            //{
+            //    new Claim("email", user.Email),
+            //    new Claim("id", user.Id.ToString())
+            //};
+
+            //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtConfig:Secret"]));
+            //var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            //var token = new JwtSecurityToken(
+            //    issuer: _configuration["JwtConfig:Issuer"],
+            //    audience: _configuration["JwtConfig:Audience"],
+            //    claims: claims,
+            //    expires: DateTime.Now.AddMinutes(30),
+            //    signingCredentials: creds
+            //    );
+
+            //return new JwtSecurityTokenHandler().WriteToken(token);
+
+
+            // Basic authorization key generation
+            var authInfo = $"{user.Email}:{user.Password}";
+            var authInfoBytes = Encoding.UTF8.GetBytes(authInfo);
+            return Convert.ToBase64String(authInfoBytes);
+        }
+
+        public async Task<string> verifyToken(string token)
+        {
+            // Basic authorization key validation
+            try
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Email),
-            };
+                var decodedToken = Encoding.UTF8.GetString(Convert.FromBase64String(token));
+                var emailPassword = decodedToken.Split(":");
 
-            var identity = new ClaimsIdentity(claims, "Basic");
-            var principal = new ClaimsPrincipal(identity);
-            var ticket = new AuthenticationTicket(principal, "Basic");
+                if(emailPassword.Length != 2)
+                {
+                    return null;
+                }
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtConfig:Secret"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var tokenDescriptor = new SecurityTokenDescriptor
+                var email = emailPassword[0];
+                var password = emailPassword[1];
+
+                var user = await ValidateUser(new LoginUserDto { Email = email, Password = password });
+                if(user == null)
+                {
+                    return null;
+                }
+
+                if(user.Email != email && user.Password != password)
+                {
+                    return null;
+                }
+
+                return token;
+            }
+            catch
             {
-                Subject = identity,
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = creds
-            };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+                return null;
+            }
 
-            return tokenHandler.WriteToken(token);
+            // JWT authorization key validation
+            //try
+            //{
+            //    var tokenHandler = new JwtSecurityTokenHandler();
+            //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtConfig:Secret"]));
+            //    tokenHandler.ValidateToken(token, new TokenValidationParameters
+            //    {
+            //        ValidateIssuerSigningKey = true,
+            //        IssuerSigningKey = key,
+            //        ValidateIssuer = false,
+            //        ValidateAudience = false,
+            //        ClockSkew = TimeSpan.Zero   
+            //    }, out SecurityToken validatedToken);
+            //    var jwtToken = (JwtSecurityToken)validatedToken;
+            //    return jwtToken;
+            //}
+            //catch
+            //{
+            //    return null;
+            //}
+        }
+
+        public async Task<UserDto> getUserFromToken(string token)
+        {
+            try
+            {
+                var decodedToken = Encoding.UTF8.GetString(Convert.FromBase64String(token));
+                var emailPassword = decodedToken.Split(":");
+                var email = emailPassword[0];
+                var password = emailPassword[1];
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+                return _mapper.Map<UserDto>(user);
+                //var tokenHandler = new JwtSecurityTokenHandler();
+                //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtConfig:Secret"]));
+                //tokenHandler.ValidateToken(token, new TokenValidationParameters
+                //{
+                //    ValidateIssuerSigningKey = true,
+                //    IssuerSigningKey = key,
+                //    ValidateIssuer = false,
+                //    ValidateAudience = false,
+                //    ClockSkew = TimeSpan.Zero   
+                //}, out SecurityToken validatedToken);
+                //var jwtToken = (JwtSecurityToken)validatedToken;
+                //var email = token.Claims.First(x => x.Type == "email").Value;
+                //var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+                //return _mapper.Map<UserDto>(user);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

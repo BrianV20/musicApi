@@ -2,6 +2,7 @@
 using musicApi2.Models.Artist;
 using musicApi2.Models.User.Dto;
 using musicApi2.Services;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace musicApi2.Controllers
 {
@@ -125,6 +126,36 @@ namespace musicApi2.Controllers
                     return NotFound("No se encontró un user con tal email y password");
                 }
                 return Ok(new { Token = token });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("verifyToken", Name = "VerifyToken")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<string>> GetUserFromToken()
+            // HACER => CAMBIAR EL METODO DE GenerateToken. PORQUE LA TOKEN QUE SE GENERA ES DE TIPO JWT
+            // Y SE DEBE GENERAR UNA DE TIPO BASIC
+        {
+            try
+            {
+                if(!Request.Headers.ContainsKey("Authorization"))
+                {
+                    return BadRequest("No token provided");
+                }
+                var token = Request.Headers["Authorization"].ToString().Split(" ")[1];
+                //"VXN1YXJpbyAxOmNvbnRyYXNl8WF1c3VhcmlvMQ=="
+                //"QnJpYW5WNzQ1NTpwYXNzd29yZHVzZXI0"
+                var validatedToken = await _userService.verifyToken(token);
+                if (validatedToken != null)
+                {
+                    var user = await _userService.getUserFromToken(validatedToken);
+                    return Ok(user);
+                }
+                return BadRequest("Invalid token");
             }
             catch (Exception ex)
             {

@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using musicApi2.Attributes;
 using musicApi2.Models.User;
 using musicApi2.Services;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
@@ -30,7 +32,55 @@ namespace musicApi2.Controllers
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            // check if request has authorization header
+            // JWT AUTHENTICATION
+            //if(!Request.Headers.ContainsKey("Authorization"))
+            //{
+            //    return AuthenticateResult.Fail("Authorization header was not found");
+            //}
+
+            //var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
+            //var token = authHeader.Parameter;
+            //var tokenHandler = new JwtSecurityTokenHandler();
+            //var key = Encoding.UTF8.GetBytes("jwtsupersecretkey");
+
+            //try
+            //{
+            //    tokenHandler.ValidateToken(token, new TokenValidationParameters
+            //    {
+            //        ValidateIssuerSigningKey = true,
+            //        IssuerSigningKey = new SymmetricSecurityKey(key),
+            //        ValidateIssuer = false,
+            //        ValidateAudience = false,
+            //        ClockSkew = TimeSpan.Zero
+            //    }, out SecurityToken validatedToken);
+
+            //    var jwtToken = (JwtSecurityToken)validatedToken;
+            //    var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+            //    var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            //    if (user == null)
+            //    {
+            //        return AuthenticateResult.Fail("Invalid Token");
+            //    }
+
+            //    var claims = new Claim[]
+            //    {
+            //        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            //        new Claim(ClaimTypes.Name, user.Email)
+            //    };
+            //    var identity = new ClaimsIdentity(claims, Scheme.Name);
+            //    var principal = new ClaimsPrincipal(identity);
+            //    var ticket = new AuthenticationTicket(principal, Scheme.Name);
+
+            //    return AuthenticateResult.Success(ticket);
+            //}
+            //catch
+            //{
+            //    return AuthenticateResult.Fail("Invalid Token");
+            //}
+
+            // BASIC AUTHENTICATION
+            //check if request has authorization header
             if(!Request.Headers.ContainsKey("Authorization"))
             {
                 return AuthenticateResult.Fail("Authorization header was not found");
