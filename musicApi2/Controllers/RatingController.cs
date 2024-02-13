@@ -17,18 +17,20 @@ namespace musicApi2.Controllers
         }
 
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{userAndReleaseId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<RatingDto>> GetOneById(int id)
+        public async Task<ActionResult<RatingDto>> GetOneById(string userAndReleaseId)
         {
             try
             {
-                var rating = await _ratingService.GetOne(a => a.Id == id);
+                var userId = int.Parse(userAndReleaseId.Split("-")[0]);
+                var releaseId = int.Parse(userAndReleaseId.Split("-")[1]);
+                var rating = await _ratingService.GetOne(a => a.UserId == userId && a.ReleaseId == releaseId);
                 if (rating == null)
                 {
-                    return NotFound("No se encontró un rating con tal id.");
+                    return BadRequest("No se encontró un rating con tal id.");
                 }
                 return Ok(rating);
             }
@@ -39,21 +41,21 @@ namespace musicApi2.Controllers
         }
 
 
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<RatingDto>> Create([FromBody] CreateRatingDto createRatingDto)
-        {
-            try
-            {
-                await _ratingService.Add(createRatingDto);
-                return Created("Create", createRatingDto);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpPost]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public async Task<ActionResult<RatingDto>> Create([FromBody] CreateRatingDto createRatingDto)
+        //{
+        //    try
+        //    {
+        //        await _ratingService.Add(createRatingDto);
+        //        return Created("Create", createRatingDto);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
 
         [HttpGet(Name = "GetAllRatings")]
@@ -73,14 +75,19 @@ namespace musicApi2.Controllers
         }
 
 
-        [HttpPut("{id:int}")]
+        [HttpPut("{userAndReleaseIdAndRating}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<RatingDto>> Update(int id, [FromBody] UpdateRatingDto updateRatingDto)
+        //public async Task<ActionResult<RatingDto>> Update(int id, [FromBody] UpdateRatingDto updateRatingDto)
+        public async Task<ActionResult<RatingDto>> Update(string userAndReleaseIdAndRating)
         {
             try
             {
-                var rating = await _ratingService.Update(id, updateRatingDto);
+                //var rating = await _ratingService.Update(id, updateRatingDto);
+                var userId = int.Parse(userAndReleaseIdAndRating.Split("-")[0]);
+                var releaseId = int.Parse(userAndReleaseIdAndRating.Split("-")[1]);
+                var newRating = userAndReleaseIdAndRating.Split("-")[2];
+                var rating = await _ratingService.Update(userId, releaseId, newRating);
                 if (rating == null)
                 {
                     return NotFound("No se encontró un rating con tal id");

@@ -14,10 +14,11 @@ namespace musicApi2.Services
         Task<RatingDto> GetOne(Expression<Func<Rating, bool>>? filter = null);
 
 
-        Task<RatingDto> Add(CreateRatingDto createRatingDto);
+        Task<RatingDto> Add(int userId, int releaseId, string newRating);
 
 
-        Task<RatingDto> Update(int id, UpdateRatingDto updateRatingDto);
+        //Task<RatingDto> Update(int id, UpdateRatingDto updateRatingDto);
+        Task<RatingDto> Update(int userId, int releaseId, string newRating);
 
 
         Task Delete(int id);
@@ -35,9 +36,15 @@ namespace musicApi2.Services
             _mapper = mapper;
         }
 
-        public async Task<RatingDto> Add(CreateRatingDto createRatingDto)
+        public async Task<RatingDto> Add(int userId, int releaseId, string newRating)
         {
-            var ratingToAdd = _mapper.Map<Rating>(createRatingDto);
+            var ratingToAdd = new Rating
+            {
+                UserId = userId,
+                ReleaseId = releaseId,
+                RatingValue = newRating
+            };
+            //var ratingToAdd = _mapper.Map<Rating>(createRatingDto);
             await _context.Ratings.AddAsync(ratingToAdd);
             await Save();
             return _mapper.Map<RatingDto>(ratingToAdd);
@@ -68,7 +75,6 @@ namespace musicApi2.Services
                 return _mapper.Map<RatingDto>(rating);
             }
             return null;
-
         }
 
         public async Task Save()
@@ -76,17 +82,23 @@ namespace musicApi2.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<RatingDto> Update(int id, UpdateRatingDto updateRatingDto)
+        //public async Task<RatingDto> Update(int id, UpdateRatingDto updateRatingDto)
+        public async Task<RatingDto> Update(int userId, int releaseId, string newRating)
         {
-            var ratingToUpdate = await _context.Ratings.FirstOrDefaultAsync(r => r.Id == id);
+            var ratingToUpdate = await _context.Ratings.FirstOrDefaultAsync(r => r.UserId == userId && r.ReleaseId == releaseId);
             if(ratingToUpdate != null)
             {
-                var rating = _mapper.Map(updateRatingDto, ratingToUpdate);
+                var rating = _mapper.Map<Rating>(ratingToUpdate);
+                rating.RatingValue = newRating;
                 _context.Ratings.Update(rating);
                 await Save();
                 return _mapper.Map<RatingDto>(rating);
             }
-            return null;
+            else
+            {
+                var addedRating = await Add(userId, releaseId, newRating);
+                return addedRating;
+            }
         }
     }
 }

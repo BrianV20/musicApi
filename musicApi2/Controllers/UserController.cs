@@ -133,12 +133,10 @@ namespace musicApi2.Controllers
             }
         }
 
-        [HttpGet("verifyToken", Name = "VerifyToken")]
+        [HttpGet("GetUserFromToken", Name = "GetUserFromToken")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<string>> GetUserFromToken()
-            // HACER => CAMBIAR EL METODO DE GenerateToken. PORQUE LA TOKEN QUE SE GENERA ES DE TIPO JWT
-            // Y SE DEBE GENERAR UNA DE TIPO BASIC
         {
             try
             {

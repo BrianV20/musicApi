@@ -90,8 +90,9 @@ namespace musicApi2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("RatingValue")
-                        .HasColumnType("float");
+                    b.Property<string>("RatingValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ReleaseId")
                         .HasColumnType("int");

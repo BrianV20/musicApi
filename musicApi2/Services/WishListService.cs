@@ -34,6 +34,11 @@ namespace musicApi2.Services
             var release = _context.Releases.FirstOrDefault(r => r.Id == releaseId);
             if(release != null)
             {
+                if(_context.WishLists.FirstOrDefault(w => w.userId == userId) == null)
+                {
+                    await Create(userId);
+                    //_context.WishLists.FirstOrDefault(w => w.userId == userId).releasesIds = "";
+                }
                 _context.WishLists.FirstOrDefault(w => w.userId == userId).releasesIds += releaseId.ToString() + ",";
                 await Save();
             }

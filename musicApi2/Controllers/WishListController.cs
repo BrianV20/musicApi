@@ -15,17 +15,17 @@ namespace musicApi2.Controllers
             _wishListService = wishListService;
         }
 
-        [HttpGet("{wishlistId:int}")]
+        [HttpGet("{userId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<WishListDto>> GetOneById(int wishlistId)
+        public async Task<ActionResult<WishListDto>> GetByUserId(int userId)
         {
             try
             {
-                var wishlist = await _wishListService.GetOne(w => w.Id == wishlistId);
+                var wishlist = await _wishListService.GetOne(w => w.userId == userId);
                 if (wishlist == null)
                 {
-                    return NotFound("No existe un wishlist con tal id.");
+                    return null;
                 }
                 return Ok(wishlist);
             }
@@ -54,7 +54,7 @@ namespace musicApi2.Controllers
         [HttpPost(Name = "AddWishlist")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Create (int userId)
+        public async Task<ActionResult> Create(int userId)
         {
             try
             {
@@ -67,13 +67,18 @@ namespace musicApi2.Controllers
             }
         }
 
-        [HttpPut("AddRelease", Name = "AddRelease")]
+        //[HttpPut("AddRelease, {userId:int}, {releaseId:int}")] //BUSCAR COMO HACER BIEN ESTO, ADDRELEASE Y REMOVE RELEASE RECIBEN LOS MISMOS PARAMETROS PERO HAY QUE DIFERENCIAR AMBOS METODOS DE ALGUNA MANERA
+        //[HttpPut("{userId:int}-{releaseId:int}", Name = "AddRelease")]
+        [HttpPut("AddRelease/{userAndReleaseId}", Name = "AddRelease")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> AddRelease(int userId, int releaseId)
+        public async Task<ActionResult> AddRelease(string userAndReleaseId)
         {
             try
             {
+                var ids = userAndReleaseId.ToString().Split('-');
+                var userId = int.Parse(ids[0]);
+                var releaseId = int.Parse(ids[1]);
                 await _wishListService.AddRelease(userId, releaseId);
                 return Ok();
             }
@@ -83,13 +88,16 @@ namespace musicApi2.Controllers
             }
         }
 
-        [HttpPut("RemoveRelease", Name = "RemoveRelease")]
+        [HttpPut("RemoveRelease/{userAndReleaseId}", Name = "RemoveRelease")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> RemoveRelease(int userId, int releaseId)
+        public async Task<ActionResult> RemoveRelease(string userAndReleaseId)
         {
             try
             {
+                var ids = userAndReleaseId.ToString().Split('-');
+                var userId = int.Parse(ids[0]);
+                var releaseId = int.Parse(ids[1]);
                 await _wishListService.RemoveRelease(userId, releaseId);
                 return Ok();
             }
