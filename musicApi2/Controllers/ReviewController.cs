@@ -37,15 +37,19 @@ namespace musicApi2.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("{reviewInfo}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ReviewDto>> Create([FromBody] CreateReviewDto createReviewDto)
+        public async Task<ActionResult<ReviewDto>> Create(string reviewInfo)
         {
             try
             {
-                await _reviewService.Add(createReviewDto);
-                return Created("Create", createReviewDto);
+                var userId = int.Parse(reviewInfo.Split("-+-+-+-")[0]);
+                var releaseId = int.Parse(reviewInfo.Split("-+-+-+-")[1]);
+                var reviewText = reviewInfo.Split("-+-+-+-")[2];
+                var review = await _reviewService.Add(userId, releaseId, reviewText);
+                //return Created("Create", review);
+                return Ok(review);
             }
             catch (Exception ex) 
             {

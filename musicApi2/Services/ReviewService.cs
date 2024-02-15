@@ -14,7 +14,7 @@ namespace musicApi2.Services
         Task<ReviewDto> GetOne(Expression<Func<Review, bool>>? filter = null);
 
 
-        Task<ReviewDto> Add(CreateReviewDto createReviewDto);
+        Task<ReviewDto> Add(int userId, int releaseId, string reviewText);
 
 
         Task<ReviewDto> Update(int id, UpdateReviewDto updateReviewDto);
@@ -37,9 +37,18 @@ namespace musicApi2.Services
         }
 
 
-        public async Task<ReviewDto> Add(CreateReviewDto createReviewDto)
+        public async Task<ReviewDto> Add(int userId, int releaseId, string reviewText)
         {
-            var review = _mapper.Map<Review>(createReviewDto);
+            if(await _context.Reviews.FirstOrDefaultAsync(r => r.UserId == userId && r.ReleaseId == releaseId) != null) {
+                throw new Exception("Ya existe un review con tal id.");
+            }
+            var review = new Review
+            {
+                UserId = userId,
+                ReleaseId = releaseId,
+                ReviewText = reviewText
+            };
+            //var review = _mapper.Map<Review>(createReviewDto);
             _context.Reviews.Add(review);
             await Save();
             return _mapper.Map<ReviewDto>(review);

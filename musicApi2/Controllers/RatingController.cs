@@ -30,7 +30,8 @@ namespace musicApi2.Controllers
                 var rating = await _ratingService.GetOne(a => a.UserId == userId && a.ReleaseId == releaseId);
                 if (rating == null)
                 {
-                    return BadRequest("No se encontró un rating con tal id.");
+                    //return BadRequest("No se encontró un rating con tal id.");
+                    return null;
                 }
                 return Ok(rating);
             }
