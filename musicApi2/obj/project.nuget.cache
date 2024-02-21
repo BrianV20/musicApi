@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ib0xl0GIXw1VK5f4iStsomZ837lMGKaD3ZEJUXRPG2fs65yo8s+WmJaSEW5pgFj/oGIIwaxQ/Y4/mYc5hPpYww==",
+  "dgSpecHash": "9wtrLdx+rsE9taVOYcy9wrYoYpim/wHrrEE18TGgNnVb70YMexp6pY2QoCql0gfAD5WodEeYu8pDgyJXrow/MA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Brian\\Source\\Repos\\musicApi\\musicApi2\\musicApi2.csproj",
+  "projectFilePath": "C:\\Users\\Brian\\source\\repos\\musicApi\\musicApi2\\musicApi2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Brian\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Brian\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

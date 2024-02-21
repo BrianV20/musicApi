@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Brian\\Source\\Repos\\musicApi\\musicApi2\\musicApi2.csproj": {}
+    "C:\\Users\\Brian\\source\\repos\\musicApi\\musicApi2\\musicApi2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Brian\\Source\\Repos\\musicApi\\musicApi2\\musicApi2.csproj": {
+    "C:\\Users\\Brian\\source\\repos\\musicApi\\musicApi2\\musicApi2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Brian\\Source\\Repos\\musicApi\\musicApi2\\musicApi2.csproj",
+        "projectUniqueName": "C:\\Users\\Brian\\source\\repos\\musicApi\\musicApi2\\musicApi2.csproj",
         "projectName": "musicApi2",
-        "projectPath": "C:\\Users\\Brian\\Source\\Repos\\musicApi\\musicApi2\\musicApi2.csproj",
+        "projectPath": "C:\\Users\\Brian\\source\\repos\\musicApi\\musicApi2\\musicApi2.csproj",
         "packagesPath": "C:\\Users\\Brian\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Brian\\Source\\Repos\\musicApi\\musicApi2\\obj\\",
+        "outputPath": "C:\\Users\\Brian\\source\\repos\\musicApi\\musicApi2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Brian\\AppData\\Roaming\\NuGet\\NuGet.Config",

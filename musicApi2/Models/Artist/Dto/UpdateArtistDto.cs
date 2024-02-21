@@ -3,5 +3,7 @@
     public class UpdateArtistDto
     {
         public string Name { get; set; } = null!;
+
+        public string Img { get; set; } = null!;
     }
 }

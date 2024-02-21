@@ -23,5 +23,9 @@ namespace musicApi2.Models.User.Dto
         [StringLength(50)]
         //[MinLength(3)]
         public string? Gender { get; set; }
+
+        public string? FavoriteReleases { get; set; }
+
+        public string? LikedReleases { get; set; }
     }
 }

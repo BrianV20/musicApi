@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using musicApi2.Models.Artist;
 using musicApi2.Models.User.Dto;
 using musicApi2.Services;
@@ -75,7 +76,7 @@ namespace musicApi2.Controllers
         }
 
 
-        [HttpPut(Name = "UpdateUser")]
+        [HttpPut("{id:int}", Name = "UpdateUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -128,6 +129,28 @@ namespace musicApi2.Controllers
                 return Ok(new { Token = token });
             }
             catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("{likeInfo}", Name = "LikeRelease")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> LikeRelease(string likeInfo)
+        {
+            try
+            {
+                var userId = int.Parse(likeInfo.Split("+-+-+-")[0]);
+                var releaseId = int.Parse(likeInfo.Split("+-+-+-")[1]);
+                var result = await _userService.LikeRelease(userId, releaseId);
+                if(result != null)
+                {
+                    return Ok(result);
+                }
+                return null;
+            }
+            catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }

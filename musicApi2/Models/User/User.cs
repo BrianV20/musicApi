@@ -32,5 +32,9 @@ namespace musicApi2.Models.User
         [StringLength(50)]
         //[MinLength(3)]
         public string Gender { get; set; } = null!;
+
+        public string FavoriteReleases { get; set; } = null;
+
+        public string LikedReleases { get; set; } = null;
     }
 }

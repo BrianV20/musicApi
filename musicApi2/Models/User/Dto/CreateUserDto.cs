@@ -13,5 +13,9 @@ namespace musicApi2.Models.User.Dto
         public string Img { get; set; } = null!;
 
         public string Gender { get; set; } = null!;
+
+        public string FavoriteReleases { get; set; } = null;
+
+        public string LikedReleases { get; set; } = null;
     }
 }

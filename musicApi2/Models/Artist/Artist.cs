@@ -16,5 +16,8 @@ namespace musicApi2.Models.Artist
         public string Name { get; set; } = null!;
 
         public virtual ICollection<ArtistsReleases.ArtistsReleases> ArtistsReleases { get; set; } = null!;
+
+        [Required]
+        public string Img { get; set; } = null!;
     }
 }

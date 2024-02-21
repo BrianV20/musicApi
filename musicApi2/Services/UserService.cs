@@ -28,6 +28,8 @@ namespace musicApi2.Services
 
         Task<string> Login(LoginUserDto loginUserDto);
 
+        Task<string> LikeRelease(int userId, int releaseId);
+
         Task<string> verifyToken(string token);
 
         Task<UserDto> getUserFromToken(string token);
@@ -123,6 +125,33 @@ namespace musicApi2.Services
             }
 
             throw new Exception("Invalid credentials");
+        }
+
+        public async Task<string> LikeRelease(int userId, int releaseId)
+        {
+            var user1 = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            _context.Users.Entry(user1).State = EntityState.Detached;
+            var user = _mapper.Map<UserDto>(user1);
+            if(user.LikedReleases == null)
+            {
+                user.LikedReleases = "";
+            }
+            if (user.LikedReleases.Contains(releaseId.ToString() + ","))
+            {
+                throw new Exception("User already liked this release");
+            }
+            user.LikedReleases += releaseId.ToString() + ",";
+            _context.Users.Update(_mapper.Map<User>(user));
+            await Save();
+            return user.LikedReleases;
+            //await Update(userId, _mapper.Map<UpdateUserDto>(user));
+            //if (_context.WishLists.FirstOrDefault(w => w.userId == userId) == null)
+            //{
+            //    await Create(userId);
+            //    //_context.WishLists.FirstOrDefault(w => w.userId == userId).releasesIds = "";
+            //}
+            //_context.WishLists.FirstOrDefault(w => w.userId == userId).releasesIds += releaseId.ToString() + ",";
+            //await Save();
         }
 
         private async Task<User> ValidateUser(LoginUserDto loginUserDto)
