@@ -30,6 +30,8 @@ namespace musicApi2.Services
 
         Task<string> LikeRelease(int userId, int releaseId);
 
+        Task<string> GetLikedReleasesByUserId(int userId);
+
         Task<string> verifyToken(string token);
 
         Task<UserDto> getUserFromToken(string token);
@@ -51,6 +53,10 @@ namespace musicApi2.Services
         public async Task<UserDto> Add(CreateUserDto createUserDto)
         {
             var user = _mapper.Map<User>(createUserDto);
+            if(_context.Users.FirstOrDefault(u => u.Email == user.Email) != null)
+            {
+                throw new Exception("User already exists");
+            }
             _context.Users.Add(user);
             await Save();
             return _mapper.Map<UserDto>(user);
@@ -138,9 +144,13 @@ namespace musicApi2.Services
             }
             if (user.LikedReleases.Contains(releaseId.ToString() + ","))
             {
-                throw new Exception("User already liked this release");
+                user.LikedReleases = user.LikedReleases.Replace(releaseId.ToString() + ",", "");
+                //throw new Exception("User already liked this release");
             }
-            user.LikedReleases += releaseId.ToString() + ",";
+            else
+            {
+                user.LikedReleases += releaseId.ToString() + ",";
+            }
             _context.Users.Update(_mapper.Map<User>(user));
             await Save();
             return user.LikedReleases;
@@ -152,6 +162,20 @@ namespace musicApi2.Services
             //}
             //_context.WishLists.FirstOrDefault(w => w.userId == userId).releasesIds += releaseId.ToString() + ",";
             //await Save();
+        }
+
+        public async Task<string> GetLikedReleasesByUserId(int userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if(user != null)
+            {
+                if(user.LikedReleases == null)
+                {
+                    user.LikedReleases = "";
+                }
+                return user.LikedReleases;
+            }
+            throw new Exception("User not found");
         }
 
         private async Task<User> ValidateUser(LoginUserDto loginUserDto)

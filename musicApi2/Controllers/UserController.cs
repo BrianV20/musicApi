@@ -91,9 +91,9 @@ namespace musicApi2.Controllers
                 }
                 return Ok(user);
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -144,6 +144,26 @@ namespace musicApi2.Controllers
                 var userId = int.Parse(likeInfo.Split("+-+-+-")[0]);
                 var releaseId = int.Parse(likeInfo.Split("+-+-+-")[1]);
                 var result = await _userService.LikeRelease(userId, releaseId);
+                if(result != null)
+                {
+                    return Ok(result);
+                }
+                return null;
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetLikedReleasesByUserId/{userId:int}", Name = "GetLikedReleasesByUserId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<string>> GetLikedReleasesByUserId(int userId)
+        {
+            try
+            {
+                var result = await _userService.GetLikedReleasesByUserId(userId);
                 if(result != null)
                 {
                     return Ok(result);
