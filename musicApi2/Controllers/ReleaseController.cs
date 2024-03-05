@@ -107,5 +107,21 @@ namespace musicApi2.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("getGenresOfRelease/{releaseId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> getGenresOfRelease(int releaseId)
+        {
+            try
+            {
+                var genresOfRelease = await _releaseService.getGenresOfRelease(releaseId);
+                return Ok(genresOfRelease);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using musicApi2.Controllers;
 using musicApi2.Models.Artist;
 using musicApi2.Models.Artist.Dto;
 using System.Linq.Expressions;
@@ -18,6 +19,8 @@ namespace musicApi2.Services
 
 
         Task<ArtistDto> Update(int id, UpdateArtistDto updateArtistDto);
+
+        Task<string> getGenresOfArtist(int artistId);
 
 
         Task Delete(int id);
@@ -91,6 +94,34 @@ namespace musicApi2.Services
                 _context.Artists.Update(artist);
                 await Save();
                 return _mapper.Map<ArtistDto>(artist);
+            }
+            return null;
+        }
+
+        public async Task<string> getGenresOfArtist(int artistId)
+        {
+            var artist = await _context.Artists.FirstOrDefaultAsync(a => a.Id == artistId);
+            if (artist != null)
+            {
+                var releasesOfArtist = _context.Releases.Where(r => r.ArtistId == artistId);
+                var genres = new List<string>();
+                //var releaseGenres = new string[20];
+                //var releaseGenres = "";
+                foreach(var release in releasesOfArtist)
+                {
+                    var releaseGenres = release.Genres.Split(',').Select(s => s.Trim());
+                    genres.AddRange(releaseGenres);
+                }
+
+                var distinctGenres = genres.Distinct();
+                var genresString = string.Join(",", distinctGenres);
+                //genres = genres.Split(',').Distinct().ToString();
+
+                //foreach(var g in genres)
+                //{
+                //    if()
+                //}
+                return genresString;
             }
             return null;
         }

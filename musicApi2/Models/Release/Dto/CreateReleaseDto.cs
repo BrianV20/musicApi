@@ -11,5 +11,7 @@
         public int? ArtistId { get; set; }
 
         public int Type { get; set; }
+
+        public string Genres { get; set; } = null;
     }
 }

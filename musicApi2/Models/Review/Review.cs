@@ -10,7 +10,7 @@ namespace musicApi2.Models.Review
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(300)]
+        [MaxLength(600)]
         public string ReviewText { get; set; } = null!;
 
         [Required]

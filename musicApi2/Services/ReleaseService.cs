@@ -19,6 +19,8 @@ namespace musicApi2.Services
 
         Task<ReleaseDto> Update(int id, UpdateReleaseDto updateReleaseDto);
 
+        Task<string> getGenresOfRelease(int releaseId);
+
 
         Task Delete(int id);
 
@@ -87,6 +89,16 @@ namespace musicApi2.Services
                 return _mapper.Map<ReleaseDto>(release);
             }
             return null;
+        }
+
+        public async Task<string> getGenresOfRelease(int releaseId)
+        {
+            var release = await _context.Releases.FirstOrDefaultAsync(r => r.Id == releaseId);
+            if (release != null)
+            {
+                return release.Genres;
+            }
+            throw new Exception("El release no existe");
         }
     }
 }

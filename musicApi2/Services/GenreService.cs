@@ -3,6 +3,8 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using musicApi2.Models.Genre;
 using musicApi2.Models.Genre.Dto;
+using musicApi2.Models.Release;
+using musicApi2.Models.Release.Dto;
 
 namespace musicApi2.Services
 {
@@ -19,6 +21,9 @@ namespace musicApi2.Services
 
         Task<GenreDto> Update(int id, UpdateGenreDto updateGenreDto);
 
+        Task<ReleaseDto> updateGenresOfRelease(int releaseId, string genresIds);
+
+        Task<ReleaseDto> clearGenresOfRelease(int releaseId);
 
         Task Delete(int id);
 
@@ -88,5 +93,51 @@ namespace musicApi2.Services
             }
             return null;
         }
+
+        public async Task<ReleaseDto> updateGenresOfRelease(int releaseId, string genresIds)
+        {
+            var releaseToUpdate = await _context.Releases.FirstOrDefaultAsync(r => r.Id == releaseId);
+            if (releaseToUpdate != null)
+            {
+                var genres = genresIds.Split(',').Select(s => s.Trim());
+                var existingGenres = releaseToUpdate.Genres.Split(',').Select(s => s.Trim());
+
+                foreach (var genreId in genres)
+                {
+                    var genre = await _context.Genres.FirstOrDefaultAsync(g => g.Id == int.Parse(genreId));
+                    if (genre != null)
+                    {
+                        if (!existingGenres.Contains(genreId))
+                        {
+                            if (releaseToUpdate.Genres == "")
+                            {
+                                releaseToUpdate.Genres += (genreId + ",");
+                            }
+                            else
+                            {
+                                releaseToUpdate.Genres += (" " + genreId + ",");
+                            }
+                        }
+                    }
+                }
+
+                await Save();
+                return _mapper.Map<ReleaseDto>(releaseToUpdate);
+            }
+            throw new Exception("El release no existe");
+        }
+
+        public async Task<ReleaseDto> clearGenresOfRelease(int releaseId)
+        {
+            var releaseToUpdate = await _context.Releases.FirstOrDefaultAsync(r => r.Id == releaseId);
+            if(releaseToUpdate != null)
+            {
+                releaseToUpdate.Genres = "";
+                await Save();
+                return _mapper.Map<ReleaseDto>(releaseToUpdate);
+            }
+            throw new Exception("El release no existe");
+        }
+
     }
 }

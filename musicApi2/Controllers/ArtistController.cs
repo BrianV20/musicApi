@@ -109,6 +109,22 @@ namespace musicApi2.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("getGenresOfArtist/{artistId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<string>> getGenresOfArtist(int artistId)
+        {
+            try
+            {
+                var genres = await _artistService.getGenresOfArtist(artistId);
+                return Ok(genres);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
 

@@ -156,7 +156,7 @@ namespace musicApi2.Controllers
             }
         }
 
-        [HttpGet("GetLikedReleasesByUserId/{userId:int}", Name = "GetLikedReleasesByUserId")]
+        [HttpGet("GetLikedReleasesByUserId/{userId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<string>> GetLikedReleasesByUserId(int userId)

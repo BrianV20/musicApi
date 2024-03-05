@@ -130,6 +130,10 @@ namespace musicApi2.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("Genres")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ReleaseDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -185,8 +189,8 @@ namespace musicApi2.Migrations
 
                     b.Property<string>("ReviewText")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasMaxLength(600)
+                        .HasColumnType("nvarchar(600)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

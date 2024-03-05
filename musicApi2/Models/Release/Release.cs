@@ -31,6 +31,8 @@ namespace musicApi2.Models.Release
         [Required]
         public int Type { get; set; }
 
+        public string Genres { get; set; } = null;
+
         public virtual ICollection<ArtistsReleases.ArtistsReleases> ArtistsReleases { get; set; } = null!;
 
         public virtual ICollection<ReleasesGenres.ReleasesGenres> ReleasesGenres { get; set; } = null!;

@@ -45,8 +45,8 @@ namespace musicApi2.Controllers
         {
             try
             {
-                await _genreService.Add(createGenreDto);
-                return Created("Create", createGenreDto);
+                var genre = await _genreService.Add(createGenreDto);
+                return Created("Create", genre);
             }
             catch (Exception ex)
             {
@@ -102,6 +102,38 @@ namespace musicApi2.Controllers
             {
                 await _genreService.Delete(id);
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("updateGenresOfRelease/{releaseId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> updateGenresOfRelease(int releaseId, [FromBody] string genresIds)
+        {
+            try
+            {
+                var release = await _genreService.updateGenresOfRelease(releaseId, genresIds);
+                return Ok(release);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("clearGenresOfRelease/{releaseId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> clearGenresOfRelease(int releaseId)
+        {
+            try
+            {
+                var release = await _genreService.clearGenresOfRelease(releaseId);
+                return Ok(release);
             }
             catch (Exception ex)
             {
