@@ -203,5 +203,47 @@ namespace musicApi2.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("updateUserFavoriteReleases/{updateInfo}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> updateUserFavoriteReleases(string updateInfo)
+        {
+            try
+            {
+                var userId = int.Parse(updateInfo.Split("+-+-+-")[0]);
+                var releasesIds = updateInfo.Split("+-+-+-")[1];
+                var result = await _userService.updateUserFavoriteReleases(userId, releasesIds);
+                if(result != null)
+                {
+                    return Ok(result);
+                }
+                return BadRequest("No se pudo actualizar el usuario");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetUserFavoriteReleases/{userId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<string>> GetUserFavoriteReleases(int userId)
+        {
+            try
+            {
+                var result = await _userService.GetUserFavoriteReleases(userId);
+                if(result != null)
+                {
+                    return Ok(result);
+                }
+                return null;
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

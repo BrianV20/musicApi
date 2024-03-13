@@ -32,6 +32,10 @@ namespace musicApi2.Services
 
         Task<string> GetLikedReleasesByUserId(int userId);
 
+        Task<string> updateUserFavoriteReleases(int userId, string releasesIds);
+
+        Task<string> GetUserFavoriteReleases(int userId);
+
         Task<string> verifyToken(string token);
 
         Task<UserDto> getUserFromToken(string token);
@@ -176,6 +180,30 @@ namespace musicApi2.Services
                 return user.LikedReleases;
             }
             throw new Exception("User not found");
+        }
+
+        public async Task<string> updateUserFavoriteReleases(int userId, string releasesIds)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if(user != null)
+            {
+                //var favorites = releasesIds.Split(",");
+                user.FavoriteReleases = releasesIds;
+                _context.Users.Update(user);
+                await Save();
+                return user.FavoriteReleases;
+            }
+            return null;
+        }
+
+        public async Task<string> GetUserFavoriteReleases(int userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if(user != null)
+            {
+                return user.FavoriteReleases;
+            }
+            return null;
         }
 
         private async Task<User> ValidateUser(LoginUserDto loginUserDto)
